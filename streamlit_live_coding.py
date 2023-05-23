@@ -16,7 +16,7 @@ def load_data(path):
     return df
 
 
-mpg_df_raw = load_data(path="D:/Data Science Boot camp/ena-dewan/03_Visualization/day3-4/mpg.csv")
+mpg_df_raw = load_data(path="./data/mpg.csv")
 mpg_df = deepcopy(mpg_df_raw)
 
 # Add title and header
@@ -35,8 +35,6 @@ left_column, middle_column, right_column = st.columns([3, 1, 1])
 # Widgets: selectbox
 years = ["All"]+sorted(pd.unique(mpg_df['year']))
 year = left_column.selectbox("Choose a Year", years)
-
-
 
 # Widgets: radio buttons
 show_means = middle_column.radio(
@@ -57,12 +55,8 @@ means = reduced_df.groupby('class').mean(numeric_only=True)
 m_fig, ax = plt.subplots(figsize=(10, 8))
 ax.scatter(reduced_df['displ'], reduced_df['hwy'], alpha=0.7)
 
-
 if show_means == "Yes":
     ax.scatter(means['displ'], means['hwy'], alpha=0.7, color="red")
-    
-    
-    
 
 ax.set_title("Engine Size vs. Highway Fuel Mileage")
 ax.set_xlabel('Displacement (Liters)')
@@ -74,14 +68,13 @@ p_fig = px.scatter(reduced_df, x='displ', y='hwy', opacity=0.5,
                    width=750, height=600,
                    labels={"displ": "Displacement (Liters)",
                            "hwy": "MPG"},
-                   title="Engine Size vs. Highway Fuel Mileage"
-                   )
+                   title="Engine Size vs. Highway Fuel Mileage")
 p_fig.update_layout(title_font_size=22)
 
 if show_means == "Yes":
     p_fig.add_trace(go.Scatter(x=means['displ'], y=means['hwy'],
                                mode="markers"))
-    p_fig.update_layout(showlegend=True)
+    p_fig.update_layout(showlegend=False)
 
 # Select which plot to show
 if plot_type == "Matplotlib":
@@ -113,13 +106,6 @@ df = pd.read_csv("https://raw.githubusercontent.com/plotly/datasets/master/fips-
                  dtype={"fips": str})
 
 plotly_map = go.Figure(go.Choroplethmapbox(geojson=counties,
-                                           locations=df.fips,
-                                           z=df.unemp,
-                                           colorscale="Viridis",
-                                           zmin=0, zmax=12,
-                                           marker={"opacity": 0.5, "line_width": 0}))
-
-plotly_map = go.Figure(go.Choroplethmapbox(geojson=ds_geo,
                                            locations=df.fips,
                                            z=df.unemp,
                                            colorscale="Viridis",
