@@ -1,5 +1,0 @@
-streamlit==1.22
-numpy
-pandas==1.4.2
-plotly
-seaborn
